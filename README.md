@@ -29,7 +29,7 @@ $sudo apt install exim4
 ```
 
 ## Configure POSTFIX
-Go to /etc/postfix/main.cf
+In Lab1 go to /etc/postfix/main.cf
 ```
 $sudo nano /etc/postfix/main.cf
 ```
@@ -43,3 +43,55 @@ After changing the configuration file, restart the service
 ```
 sudo service postfix restart
 ```
+
+## Configure EXIM4
+In Lab2 configure EXIM4 to handle local emails. Use the standard debian package configuration tools to configure EXIM4 
+```
+$sudo dpkg-reconfigure exim4-config
+```
+and set the parameters as follows. Use Lab1 as smarthost.
+```
+General type of mail configuration:
+  mail sent by smarthost; received via SMTP or fetchmail
+System mail name:
+  lab2.com
+IP-addresses to listen on for incoming SMTP connections:
+  127.0.0.1
+Other destinations for which mail is accepted:
+  lab2.com; lab2; localhost.localdomain; localhost
+IP address or host name of the outgoing smarthost:
+  lab1
+Hide local mail name in outgoing mail?
+  No
+Keep number of DNS-queries minimal (Dial-on-Demand)?
+  No
+Delivery method for local mail:
+  mbox format in /var/mail/
+Split configuration into small files?
+  No
+Keep rest of the configuration empty
+```
+## Configure PROCMAIL and SPAMASSASSIN
+Configure PROCMAIL and SPAMASSASSIN in Lab1.
+
+Create procmailrc (global) file.
+```
+$sudo touch /etc/procmailrc
+```
+Edit procmailrc file and add the following lines.
+```
+:0fw
+| /usr/bin/spamassassin
+
+
+MAILDIR=$HOME/Mail
+LOGFILE=$MAILDIR/procmaillog
+LOGABSTRACT=all
+VERBOSE=yes
+
+
+:0:
+* ^X-Spam-Flag: YES
+SPAM
+```
+
