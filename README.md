@@ -74,6 +74,10 @@ Keep rest of the configuration empty
 ## Configure PROCMAIL and SPAMASSASSIN
 Configure PROCMAIL and SPAMASSASSIN in Lab1.
 
+Follow the SPAMASSASSIN configuration tutorial to configure SPAMASSASSIN.
+
+[SPAMASSASSIN Configuration by digitalocean](https://www.digitalocean.com/community/tutorials/how-to-install-and-setup-spamassassin-on-ubuntu-12-04)
+
 Create procmailrc (global) file.
 ```
 $sudo touch /etc/procmailrc
@@ -83,15 +87,25 @@ Edit procmailrc file and add the following lines.
 :0fw
 | /usr/bin/spamassassin
 
-
 MAILDIR=$HOME/Mail
 LOGFILE=$MAILDIR/procmaillog
 LOGABSTRACT=all
 VERBOSE=yes
 
-
 :0:
 * ^X-Spam-Flag: YES
 SPAM
 ```
+Create a .procmail file in user's home directory (user specific mail filter)
+```
+$sudo touch /home/lab1/.procmailrc
+```
+Now, we will filter the email based on the subject of the email. If the subject matches with specific keyword, the mail will be sent to /home/lab1/Mail/name_of_the_mail_box. Same as the SPAM emails. If the body of the mail contains bulk messages, the email will be sent to SPAM folder.
+
+In our case, if the subject contains course code cs-e4160, the mail will be sent to /home/lab1/Mail/cs-e4160
+
+```
+```
+
+
 
